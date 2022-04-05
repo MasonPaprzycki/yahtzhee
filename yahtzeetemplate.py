@@ -1,5 +1,5 @@
 import random
-
+import operator
 player_one_roll = []
 player_two_roll = []
 for i in range(5):
@@ -20,18 +20,25 @@ print("just type the numbers of the dice you want to re-roll \n"
 
 def player(player1):
     if player1:
-        player = "one"
+        player_var = "one"
     else:
-        player = "two"
-    return player
+        player_var = "two"
+    return player_var
 
 
-def yahtzee(player_one_roll, player_two_roll):
+def yahtzee(player_one_roll, player_two_roll, player_bool):
     print(f"player one your roll is {player_one_roll}")
-    replace = input(f"player {player} what would you like to re roll?")
+    replace = input(f"player {player(player_bool)} what would you like to re roll?")
     replace = replace.split(replace.join(i for i in replace if i.isdigit()))
     for a in range(len(replace)):
-        player_one_roll[replace[a]] = random.randint(1, 6)
+        locals()[f"player_{player(player_bool)}_roll"][replace[a]] = random.randint(1, 6)
+    player_bool = operator.not_(player_bool)
+    point_method = "what method would you like to use to score your point "
+
+
+
+
+
 
 
 
