@@ -34,11 +34,41 @@ def yahtzee(player_one_roll, player_two_roll, player_bool):
         replace.split(replace.join(i for i in replace if i.isdigit()))
         replace = [int(float(x)) for x in replace]
         for a in range(len(replace)):
-            locals()[f"player_{player(player_bool)}_roll"][(replace[a]) - 1] = random.randint(1, 6)
-        print(locals()[f"player_{player(player_bool)}_roll"])
+            globals()[f"player_{player(player_bool)}_roll"][(replace[a]) - 1] = random.randint(1, 6)
+        print(globals()[f"player_{player(player_bool)}_roll"])
     except ValueError:
         pass
-    point_method = "what method would you like to use to score your point "
+    point_method = input("what method would you like to use to score your point? if you want to score by number \n"
+                         "type it like '1' otherwise type by keyword \n "
+                         "the keywords are yahtzeee, straight, and chance. ")
+    points = 0
+    if type(point_method) == 'int':
+        for point_method in locals()[f"player_{player(player_bool)}_roll"]:
+            points += point_method
+    elif point_method == 'yahtzee':
+        valid = True
+        for i in range(1,6):
+            if not locals()[f"player_{player(player_bool)}_roll"][0] == locals()[f"player_{player(player_bool)}_roll"][i]:
+
+                valid = False
+        if valid:
+            points += 50
+        else:
+            print('no yahtzhee')
+    elif point_method == 'straight':
+        valid = True
+        for i in range(1,6):
+            if not locals()[f"player_{player(player_bool)}_roll"][i] > locals()[f"player_{player(player_bool)}_roll"][i - 1]:
+                valid = False
+        if valid:
+            points += 40
+        else:
+            print('no straight')
+    elif point_method =='chance':
+        for i in range(5):
+            points += locals()[f"player_{player(player_bool)}_roll"][i]
+    else:
+        print('invalid point method ')
     player_bool = operator.not_(player_bool)
 
 yahtzee(player_one_roll, player_two_roll, player_bool=True)
